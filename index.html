@@ -243,10 +243,43 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
 .taran .h{position:absolute;font-style:normal;font-size:18px;color:var(--pink);opacity:0;-webkit-text-stroke:1px var(--outline)}
 .taran .h.l{left:-26px;top:6px}.taran .h.r{right:-24px;top:0}
 .reveal[data-state="open"] .taran span{animation:hopIn .5s cubic-bezier(.3,1.6,.5,1) forwards, bob 1.2s ease-in-out infinite}
-.reveal[data-state="open"] .taran span:nth-child(2){animation-delay:.75s,1.3s}
-.reveal[data-state="open"] .taran span:nth-child(3){animation-delay:.87s,1.42s}
-.reveal[data-state="open"] .taran span:nth-child(4){animation-delay:.99s,1.54s}
-.reveal[data-state="open"] .taran span:nth-child(5){animation-delay:1.11s,1.66s}
+.reveal[data-state="open"] .taran span{animation-delay:calc(.75s + var(--i,0) * .1s),calc(1.3s + var(--i,0) * .1s)}
+.reveal[data-kind="dud"] .taran{font-size:34px}
+
+/* ---------- 꽝 ---------- */
+.cap.dud,.out-cap.dud{background:
+  radial-gradient(circle at 30% 24%, #6E7563 0 7%, transparent 8%),
+  radial-gradient(circle at 64% 34%, #6E7563 0 5%, transparent 6%),
+  linear-gradient(to bottom,#A3AA92 0 50%, rgba(220,222,212,.95) 50% 100%)}
+.reveal{transition:background-color .6s}
+.reveal[data-kind="dud"]{background:rgba(52,50,62,.66)}
+.reveal[data-kind="dud"][data-state="rolling"]{background:rgba(24,22,32,.86)}
+.reveal[data-kind="dud"] .big-cap .top{background:
+  radial-gradient(circle at 28% 45%, #6E7563 0 8%, transparent 9%),
+  radial-gradient(circle at 66% 58%, #6E7563 0 6%, transparent 7%),
+  radial-gradient(circle at 48% 26%, #6E7563 0 5%, transparent 6%), #A3AA92}
+.reveal[data-kind="dud"] .big-cap .bot{background:#DCDED4}
+.reveal[data-kind="dud"] .burst{background:conic-gradient(from 0deg,#C9CDBE,#E8E3D3,#BFB6CF,#D9D2C0,#C9CDBE)}
+.uhoh{position:absolute;left:0;right:0;top:calc(50% - 165px);text-align:center;font-family:var(--display);font-size:40px;line-height:1;color:#fff;
+  -webkit-text-stroke:1.5px #6E7563;text-shadow:0 3px 0 #6E7563;opacity:0;pointer-events:none;white-space:nowrap}
+.uhoh small{font-size:22px;margin-left:4px}
+.reveal[data-kind="dud"][data-state="closed"] .uhoh,.reveal[data-kind="dud"][data-state="rolling"] .uhoh{animation:uhoh .6s cubic-bezier(.3,1.6,.5,1) .15s forwards, tilt 1.2s ease-in-out .8s infinite}
+.reveal[data-kind="dud"][data-state="rolling"] .uhoh{animation:uhoh .01s forwards, shiver .09s linear infinite}
+@keyframes uhoh{0%{opacity:0;transform:scale(.2) rotate(-20deg)}100%{opacity:1;transform:scale(1) rotate(-6deg)}}
+@keyframes tilt{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes shiver{0%{transform:translate(-2px,0) rotate(-5deg)}50%{transform:translate(2px,1px) rotate(-7deg)}100%{transform:translate(-1px,-1px) rotate(-4deg)}}
+.dud-name{font-family:var(--display);font-size:clamp(24px,7.5vw,34px);line-height:1.2;text-align:center;max-width:90vw;padding:0 6px;
+  background:linear-gradient(90deg,#FF6B8B,#FFA94D,#FFD93D,#6BCB77,#4D96FF,#9B72F2,#FF6B8B);background-size:320px 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff) drop-shadow(0 3px 0 rgba(40,30,60,.5));opacity:0}
+.reveal[data-state="open"] .dud-name{animation:rainbow 1.4s linear infinite, wobbleT 1s ease-in-out infinite, fadeIn .4s .45s forwards}
+@keyframes rainbow{to{background-position:320px 0}}
+@keyframes wobbleT{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.07)}}
+@keyframes fadeIn{to{opacity:1}}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.seg button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:8px 0;cursor:pointer;font-family:var(--display);font-size:16px;color:var(--ink)}
+.seg button[aria-pressed="true"]{border-color:var(--outline);background:var(--pink-light);box-shadow:0 0 0 2px var(--outline) inset}
+.sec .hint-text{margin:8px 2px 0;font-size:12px;color:var(--ink-soft)}
 .reveal[data-state="open"] .taran .h{animation:heartPop .7s ease-out forwards, float 1.8s ease-in-out infinite}
 .reveal[data-state="open"] .taran .h.l{animation-delay:1.15s,1.85s}
 .reveal[data-state="open"] .taran .h.r{animation-delay:1.25s,1.95s}
@@ -334,6 +367,11 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
         <h3>기계 색깔</h3>
         <div class="swatches" id="swatches"></div>
       </div>
+      <div class="sec" id="secretSec" hidden>
+        <h3>비밀 설정 · 꽝 확률</h3>
+        <div class="seg" id="dudSeg"></div>
+        <p class="hint-text">꽝이 나오면 이상한 캡슐 안에 웃긴 물건이 들어 있어요. 이 칸은 '설정' 글자를 5번 빠르게 눌러야 보여요.</p>
+      </div>
       <div class="sec">
         <h3>기타</h3>
         <div style="display:flex;flex-direction:column;gap:8px">
@@ -375,10 +413,12 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
     <div class="burst"></div>
     <div class="sparkles" id="sparkles"></div>
     <figure class="prize">
-      <div class="taran" aria-hidden="true"><i class="h l">♥</i><span>짜</span><span>잔</span><span>~</span><span class="note">♪</span><i class="h r">♥</i></div>
+      <div class="taran" id="taran" aria-hidden="true"></div>
       <div class="frame" id="prizeFrame"><img id="prizeImg" alt=""></div>
+      <div class="dud-name" id="dudName" hidden></div>
       <figcaption><small id="prizeMeta"></small></figcaption>
     </figure>
+    <div class="uhoh" aria-hidden="true">어랏?<small>…</small></div>
     <button class="big-cap" id="bigCap" type="button" aria-label="캡슐 열기"><span class="half top"></span><span class="half bot"></span></button>
     <p class="tap-hint">캡슐을 눌러서 열어보세요</p>
   </div>
@@ -431,13 +471,13 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
   const state = {
     mode: "loading", items: [], local: [], samples: [],
     uploading: 0, busy: false, pending: null, confirmId: null, confirmClear: false, confirmWipe: false, wiping: false,
-    history: [], total: 0, muted: false, renderQueued: false,
+    history: [], total: 0, muted: false, renderQueued: false, duds: [], dudRate: .1,
   };
   let db = null, assets = null, histDoc = null, setDoc = null;
 
   // ---------- local prefs / fallback history ----------
-  try { const s = JSON.parse(localStorage.getItem(LS) || "{}"); state.muted = !!s.muted; if (s.theme) themeKey = s.theme; if (Array.isArray(s.history)) { state.history = s.history; state.total = s.total | 0; } } catch {}
-  const saveLocal = () => { try { localStorage.setItem(LS, JSON.stringify({ muted: state.muted, theme: themeKey, history: histDoc ? [] : state.history, total: histDoc ? 0 : state.total })); } catch {} };
+  try { const s = JSON.parse(localStorage.getItem(LS) || "{}"); state.muted = !!s.muted; if (s.theme) themeKey = s.theme; if (typeof s.dudRate === "number") state.dudRate = s.dudRate; if (Array.isArray(s.history)) { state.history = s.history; state.total = s.total | 0; } } catch {}
+  const saveLocal = () => { try { localStorage.setItem(LS, JSON.stringify({ muted: state.muted, theme: themeKey, dudRate: state.dudRate, history: histDoc ? [] : state.history, total: histDoc ? 0 : state.total })); } catch {} };
 
   // ---------- helpers ----------
   const hash = s => { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
@@ -449,7 +489,7 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
   const canEdit = () => state.mode === "full" || state.mode === "local";
   const setStatus = (msg, warn) => { const s = $("status"); s.textContent = msg || ""; s.classList.toggle("warn", !!warn); };
   const wait = ms => new Promise(r => setTimeout(r, ms));
-  const byId = () => new Map([...state.items, ...state.local, ...state.samples].map(it => [it.id, it]));
+  const byId = () => new Map([...state.items, ...state.local, ...state.samples, ...state.duds].map(it => [it.id, it]));
   const fmtDate = t => { const d = new Date(t); return `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
 
   // ---------- sound ----------
@@ -504,6 +544,30 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
     tone(90, 0, .5, "sine", .5, 45);
     noise(0, 1.4, 6500, .35, "highpass", .5);
   }
+  // 꽝 sounds: "어랏?", ominous roll, sad trombone
+  const uhOh = () => { tone(560, 0, .16, "sine", .11, 430); tone(440, .2, .32, "sine", .11, 820); };
+  function ominousRoll(dur) {
+    let t = 0, i = 0;
+    while (t < dur) { const p = t / dur; drumHit(t, i % 2 ? 88 : 70, .25 + .35 * p); i++; t += Math.max(.07, .17 - .09 * p); }
+    const a = audio(); if (!a) return;
+    const t0 = a.currentTime, o = a.createOscillator(), f = a.createBiquadFilter(), g = a.createGain();
+    o.type = "sawtooth"; o.frequency.setValueAtTime(98, t0); o.frequency.linearRampToValueAtTime(69, t0 + dur);
+    f.type = "lowpass"; f.frequency.value = 380;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(.09, t0 + .3); g.gain.setValueAtTime(.09, t0 + dur - .1); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur + .1);
+    o.connect(f).connect(g).connect(out); o.start(t0); o.stop(t0 + dur + .2);
+    tone(311, .25, .6, "triangle", .05); tone(294, .85, .6, "triangle", .05); tone(277, 1.45, .6, "triangle", .05);
+  }
+  function wah(freq, at, dur, vib, slide) {
+    const a = audio(); if (!a) return;
+    const t = a.currentTime + at, o = a.createOscillator(), f = a.createBiquadFilter(), g = a.createGain();
+    o.type = "sawtooth"; o.frequency.setValueAtTime(freq, t);
+    if (slide) o.frequency.linearRampToValueAtTime(freq * slide, t + dur);
+    if (vib) { const l = a.createOscillator(), lg = a.createGain(); l.frequency.value = 6; lg.gain.value = freq * .035; l.connect(lg).connect(o.frequency); l.start(t + .15); l.stop(t + dur + .05); }
+    f.type = "lowpass"; f.Q.value = 4; f.frequency.setValueAtTime(350, t); f.frequency.exponentialRampToValueAtTime(1300, t + .08); f.frequency.exponentialRampToValueAtTime(480, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(.1, t + .03); g.gain.setValueAtTime(.1, t + dur * .8); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(f).connect(g).connect(out); o.start(t); o.stop(t + dur + .05);
+  }
+  const sadTrombone = () => { wah(392, 0, .3); wah(370, .34, .3); wah(349, .68, .3); wah(330, 1.02, 1.25, true, .94); };
   // 팡파레: ta-ta-ta taaa, ta-DAAAN (brass = two detuned saws through a lowpass)
   function brass(freq, at, dur, vol = .08) {
     const a = audio(); if (!a) return;
@@ -539,6 +603,133 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
   }
   function buildSamples() {
     state.samples = [0, 1, 2, 3, 4, 5].map(i => { const color = PAL[i]; return { id: "sample-" + (i + 1), name: "샘플 캡슐 " + (i + 1), color, src: makeSample(i, color), sample: true }; });
+  }
+
+  // ---------- 꽝 items, drawn on canvas ----------
+  const OUTL = "#5B4B7A";
+  function rrPath(x, y, w, h, r) { const p = new Path2D(); p.moveTo(x + r, y); p.arcTo(x + w, y, x + w, y + h, r); p.arcTo(x + w, y + h, x, y + h, r); p.arcTo(x, y + h, x, y, r); p.arcTo(x, y, x + w, y, r); p.closePath(); return p; }
+  function blobPath(pts) { const p = new Path2D(), m = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; const s0 = m(pts[pts.length - 1], pts[0]); p.moveTo(s0[0], s0[1]); pts.forEach((pt, i) => { const q = pts[(i + 1) % pts.length], mm = m(pt, q); p.quadraticCurveTo(pt[0], pt[1], mm[0], mm[1]); }); p.closePath(); return p; }
+  function dudCanvas(draw) {
+    const c = document.createElement("canvas"); c.width = 480; c.height = 600; const x = c.getContext("2d");
+    x.fillStyle = "#EFEBF3"; x.fillRect(0, 0, 480, 600);
+    x.strokeStyle = "rgba(91,75,122,.06)"; x.lineWidth = 18;
+    for (let i = -600; i < 600; i += 48) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i + 600, 600); x.stroke(); }
+    x.fillStyle = "rgba(91,75,122,.13)"; x.beginPath(); x.ellipse(240, 505, 150, 24, 0, 0, 7); x.fill();
+    const L = document.createElement("canvas"); L.width = 480; L.height = 600; const l = L.getContext("2d");
+    l.lineJoin = "round"; l.lineCap = "round"; draw(l); x.drawImage(L, 0, 0);
+    return c.toDataURL("image/png");
+  }
+  const DUD_DEFS = [
+    ["furball", "밤이의 털공", l => {
+      const r = rng(7);
+      l.fillStyle = "#A88E74"; l.beginPath(); l.arc(240, 360, 118, 0, 7); l.fill();
+      const cols = ["#7E6650", "#C4A98D", "#6A5543", "#D9C4AE", "#94795F"];
+      for (let i = 0; i < 1500; i++) {
+        const a = r() * 6.283, d = Math.sqrt(r()) * 124, x = 240 + Math.cos(a) * d, y = 360 + Math.sin(a) * d, ang = a + (r() - .5) * 1.6, len = 10 + r() * 18;
+        l.strokeStyle = cols[i % 5]; l.lineWidth = 2 + r() * 1.5;
+        l.beginPath(); l.moveTo(x, y); l.quadraticCurveTo(x + Math.cos(ang + .5) * len * .5, y + Math.sin(ang + .5) * len * .5, x + Math.cos(ang) * len, y + Math.sin(ang) * len); l.stroke();
+      }
+      l.strokeStyle = "#6A5543"; l.lineWidth = 2.5;
+      for (let i = 0; i < 10; i++) { const a = r() * 6.283; l.beginPath(); l.moveTo(240 + Math.cos(a) * 110, 360 + Math.sin(a) * 110); l.bezierCurveTo(240 + Math.cos(a) * 150 + 20, 360 + Math.sin(a) * 150 - 10, 240 + Math.cos(a + .3) * 170, 360 + Math.sin(a + .3) * 170, 240 + Math.cos(a + .2) * 188, 360 + Math.sin(a + .2) * 182); l.stroke(); }
+    }],
+    ["gum", "씹다 만 껌", l => {
+      l.strokeStyle = OUTL; l.lineWidth = 16; l.beginPath(); l.moveTo(318, 318); l.bezierCurveTo(350, 250, 362, 210, 384, 172); l.stroke();
+      l.strokeStyle = "#FF9EC4"; l.lineWidth = 9; l.stroke();
+      l.fillStyle = "#FF9EC4"; l.beginPath(); l.arc(388, 162, 22, 0, 7); l.fill(); l.lineWidth = 6; l.strokeStyle = OUTL; l.stroke();
+      const pts = []; for (let i = 0; i < 14; i++) { const a = i / 14 * 6.283, rad = 112 + Math.sin(i * 2.3) * 20 + Math.cos(i * 1.7) * 13; pts.push([240 + Math.cos(a) * rad * 1.15, 380 + Math.sin(a) * rad * .78]); }
+      const p = blobPath(pts); l.fillStyle = "#FF9EC4"; l.fill(p); l.lineWidth = 6; l.strokeStyle = OUTL; l.stroke(p);
+      l.fillStyle = "#F07AAA"; [[190, 352], [226, 344], [263, 347], [300, 356], [206, 420], [246, 428], [284, 422]].forEach(([x, y]) => { l.beginPath(); l.ellipse(x, y, 13, 8, 0, 0, 7); l.fill(); });
+      l.fillStyle = "rgba(255,255,255,.6)"; l.beginPath(); l.ellipse(170, 330, 26, 11, -.4, 0, 7); l.fill();
+    }],
+    ["dentures", "할아버지의 틀니", l => {
+      const curve = x => Math.pow((x - 240) / 140, 2) * 36;
+      const tooth = (x, y0, h, gold) => { const p = rrPath(x - 13, y0, 26, h, 10); l.fillStyle = gold ? "#F7D272" : "#FFFFFF"; l.fill(p); l.lineWidth = 4; l.strokeStyle = OUTL; l.stroke(p); };
+      const gum = (top, dir) => { const p = new Path2D(); p.moveTo(92, top(92)); for (let x = 92; x <= 388; x += 8) p.lineTo(x, top(x)); for (let x = 388; x >= 92; x -= 4) p.lineTo(x, top(x) + dir * (40 + Math.abs(Math.sin((x - 100) / 28 * Math.PI)) * 7)); p.closePath(); l.fillStyle = "#F59AAE"; l.fill(p); l.lineWidth = 6; l.strokeStyle = OUTL; l.stroke(p); };
+      for (let i = 0; i < 10; i++) { const x = 114 + i * 28; tooth(x, 272 + curve(x) - 6, 46, i === 3); }
+      gum(x => 232 + curve(x), 1);
+      for (let i = 0; i < 10; i++) { const x = 114 + i * 28; tooth(x, 378 - curve(x) - 40, 46, false); }
+      gum(x => 426 - curve(x), -1);
+      l.fillStyle = "#fff"; l.beginPath(); const sx = 350, sy = 300; for (let i = 0; i < 8; i++) { const rr = i % 2 ? 5 : 16, a = i * Math.PI / 4; l.lineTo(sx + Math.cos(a) * rr, sy + Math.sin(a) * rr); } l.closePath(); l.fill();
+    }],
+    ["wig", "누군가의 가발", l => {
+      l.fillStyle = "#B7864A"; l.beginPath(); l.ellipse(240, 438, 150, 34, 0, 0, 7); l.fill();
+      const r = rng(11), curls = [];
+      for (let y = 196; y <= 470; y += 25) for (let x = 70; x <= 410; x += 25) {
+        const dx = (x - 240) / 175, dy = (y - 425) / 228;
+        if (dy <= 0 ? dx * dx + dy * dy <= 1 : (Math.abs(dx) > .6 && Math.abs(dx) < 1 && y < 480)) curls.push([x + (r() - .5) * 12, y + (r() - .5) * 12]);
+      }
+      curls.forEach(([x, y]) => {
+        const rad = 20 + r() * 9; l.fillStyle = ["#FFD27A", "#F4B860", "#FFE3A0"][Math.floor(r() * 3)];
+        l.beginPath(); l.arc(x, y, rad, 0, 7); l.fill(); l.strokeStyle = "#B7864A"; l.lineWidth = 3; l.stroke();
+        l.strokeStyle = "rgba(255,255,255,.55)"; l.beginPath(); l.arc(x - 3, y - 3, rad * .55, 3.6, 5.2); l.stroke();
+      });
+      // big pink bow on top
+      l.save(); l.translate(300, 206); l.rotate(.25);
+      const bow = new Path2D(); bow.moveTo(0, 0); bow.bezierCurveTo(-30, -40, -70, -20, -58, 10); bow.bezierCurveTo(-50, 34, -20, 20, 0, 0); bow.bezierCurveTo(20, 20, 50, 34, 58, 10); bow.bezierCurveTo(70, -20, 30, -40, 0, 0); bow.closePath();
+      l.fillStyle = "#FF9EC4"; l.fill(bow); l.lineWidth = 5; l.strokeStyle = OUTL; l.stroke(bow);
+      l.beginPath(); l.arc(0, 2, 11, 0, 7); l.fillStyle = "#F07AAA"; l.fill(); l.stroke();
+      l.restore();
+    }],
+    ["sock", "짝 잃은 양말", l => {
+      l.save(); l.translate(10, 0);
+      const p = new Path2D(); p.moveTo(170, 120); p.lineTo(290, 120); p.lineTo(292, 336); p.bezierCurveTo(300, 364, 330, 374, 380, 380); p.bezierCurveTo(446, 388, 452, 476, 380, 480); p.lineTo(250, 480); p.bezierCurveTo(168, 480, 150, 424, 168, 362); p.closePath();
+      l.fillStyle = "#F6F2EA"; l.fill(p);
+      l.save(); l.clip(p);
+      [[130, "#F28DB2"], [168, "#94D9C2"], [206, "#F28DB2"]].forEach(([y, c]) => { l.fillStyle = c; l.fillRect(150, y, 170, 20); });
+      l.fillStyle = "#FFE08A"; l.beginPath(); l.ellipse(188, 446, 52, 44, 0, 0, 7); l.fill();
+      l.fillStyle = "#C3EEDF"; l.beginPath(); l.ellipse(430, 432, 44, 56, 0, 0, 7); l.fill();
+      l.fillStyle = "#4A3F5C"; l.beginPath(); l.ellipse(412, 448, 15, 10, .3, 0, 7); l.fill();
+      l.restore();
+      l.lineWidth = 6; l.strokeStyle = OUTL; l.stroke(p);
+      l.strokeStyle = "#9CC48A"; l.lineWidth = 5; [370, 408, 446].forEach(x => { l.beginPath(); l.moveTo(x, 360); l.bezierCurveTo(x - 16, 334, x + 16, 314, x, 288); l.stroke(); });
+      l.restore();
+    }],
+    ["danmuji", "먹다 남은 단무지", l => {
+      const cx = 240, cy = 440, R = 165, slice = new Path2D();
+      slice.moveTo(cx - R, cy); slice.arc(cx, cy, R, Math.PI, 0); slice.closePath();
+      l.fillStyle = "#FFD84A"; l.fill(slice);
+      l.save(); l.clip(slice); l.strokeStyle = "rgba(255,255,255,.55)"; l.lineWidth = 5; [122, 82, 42].forEach(rr => { l.beginPath(); l.arc(cx, cy, rr, Math.PI, 0); l.stroke(); }); l.restore();
+      l.lineWidth = 6; l.strokeStyle = OUTL; l.stroke(slice);
+      const bites = [[358, 338, 34], [328, 302, 30], [378, 382, 28]];
+      l.globalCompositeOperation = "destination-out"; bites.forEach(([x, y, r]) => { l.beginPath(); l.arc(x, y, r, 0, 7); l.fill(); });
+      l.globalCompositeOperation = "source-atop"; l.lineWidth = 12; l.strokeStyle = OUTL; bites.forEach(([x, y, r]) => { l.beginPath(); l.arc(x, y, r, 0, 7); l.stroke(); });
+      l.globalCompositeOperation = "source-over";
+      l.fillStyle = "rgba(255,255,255,.6)"; l.beginPath(); l.ellipse(170, 360, 30, 10, -.5, 0, 7); l.fill();
+    }],
+    ["receipt", "구겨진 영수증", l => {
+      l.save(); l.translate(240, 318); l.rotate(-.12);
+      const w = 220, h = 340, p = new Path2D(); p.moveTo(-w / 2, -h / 2); p.lineTo(w / 2, -h / 2); p.lineTo(w / 2, h / 2);
+      for (let i = 0, x = w / 2; x >= -w / 2; x -= 13.75, i++) p.lineTo(x, h / 2 + (i % 2 ? -10 : 0));
+      p.closePath(); l.fillStyle = "#FFFFFF"; l.fill(p);
+      l.save(); l.clip(p); const r = rng(5);
+      l.fillStyle = "rgba(91,75,122,.05)"; for (let i = 0; i < 6; i++) { l.beginPath(); l.moveTo(-w, (r() - .5) * h); l.lineTo(w, (r() - .5) * h); l.lineTo(w, (r() - .5) * h + 60); l.closePath(); l.fill(); }
+      l.strokeStyle = "rgba(91,75,122,.14)"; l.lineWidth = 2.5; for (let i = 0; i < 7; i++) { l.beginPath(); let x = -w / 2, y = (r() - .5) * h; l.moveTo(x, y); while (x < w / 2) { x += 30 + r() * 30; y += (r() - .5) * 40; l.lineTo(x, y); } l.stroke(); }
+      l.restore(); l.lineWidth = 6; l.strokeStyle = OUTL; l.stroke(p);
+      l.fillStyle = OUTL; l.textAlign = "center"; l.font = "30px Jua, sans-serif"; l.fillText("영 수 증", 0, -h / 2 + 52);
+      l.font = "18px 'Gowun Dodum', sans-serif";
+      const row = (a, b, y) => { l.textAlign = "left"; l.fillText(a, -w / 2 + 20, y); l.textAlign = "right"; l.fillText(b, w / 2 - 20, y); };
+      row("껌 (씹던 것)", "500", -70); row("양말 한 짝", "1,200", -36); row("특별 할인", "-1,700", -2);
+      l.setLineDash([6, 6]); l.strokeStyle = OUTL; l.lineWidth = 2; l.beginPath(); l.moveTo(-w / 2 + 20, 22); l.lineTo(w / 2 - 20, 22); l.stroke(); l.setLineDash([]);
+      l.font = "26px Jua, sans-serif"; row("합계", "0원", 64);
+      l.restore();
+    }],
+    ["glove", "고무장갑 한 짝", l => {
+      l.save(); l.translate(240, 300); l.rotate(.16);
+      const shapes = [
+        [rrPath(-68, -150, 34, 190, 17)], [rrPath(-28, -180, 34, 220, 17)], [rrPath(12, -170, 34, 210, 17)], [rrPath(52, -136, 32, 176, 16)],
+        [rrPath(-17, -60, 34, 130, 17), -118, 36, -.85], [rrPath(-80, -30, 170, 150, 42)], [rrPath(-70, 108, 150, 76, 14)],
+      ];
+      const each = fn => shapes.forEach(([p, tx = 0, ty = 0, rot = 0]) => { l.save(); l.translate(tx, ty); l.rotate(rot); fn(p); l.restore(); });
+      l.strokeStyle = OUTL; l.lineWidth = 12; each(p => l.stroke(p));
+      l.fillStyle = "#FFD84D"; each(p => l.fill(p));
+      l.strokeStyle = "#E9B92F"; l.lineWidth = 4; [128, 146, 164].forEach(y => { l.beginPath(); l.moveTo(-62, y); l.lineTo(72, y); l.stroke(); });
+      [[-51, -40], [-11, -60], [29, -52], [68, -26]].forEach(([x, y]) => { l.beginPath(); l.arc(x, y, 9, .3, 2.8); l.stroke(); });
+      l.fillStyle = "rgba(255,255,255,.5)"; [[-60, -130], [-20, -160], [20, -150]].forEach(([x, y]) => { l.beginPath(); l.ellipse(x, y + 30, 5, 22, 0, 0, 7); l.fill(); });
+      l.restore();
+    }],
+  ];
+  function buildDuds() {
+    state.duds = DUD_DEFS.map(([key, name, draw]) => ({ id: "dud-" + key, name, color: "#A3AA92", src: dudCanvas(draw), dud: true }));
   }
 
   // ---------- render: machine ----------
@@ -635,9 +826,9 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
     const counts = new Map(); state.history.forEach(h => counts.set(h.id, (counts.get(h.id) || 0) + 1));
     let topId = null, topN = 0; counts.forEach((n, id) => { if (n > topN) { topN = n; topId = id; } });
     const top = map.get(topId);
-    const kinds = counts.size, all = real().length;
+    const kinds = [...counts.keys()].filter(id => !id.startsWith("dud-") && !id.startsWith("sample-")).length, all = real().length;
     st.innerHTML = `<div class="stat">${top ? `<img alt="가장 많이 나온 사진">` : ""}<div><b>${topN}회</b><span>가장 많이 나온 캡슐</span></div></div><div class="stat"><div><b>${kinds}${all ? " / " + all : ""}</b><span>지금까지 만난 사진 종류</span></div></div>`;
-    if (top) { const im = st.querySelector("img"); im.src = top.src; im.style.setProperty("--c", top.color); im.onclick = () => openViewer(top, `가장 많이 나온 캡슐 · ${topN}회`); }
+    if (top) { const im = st.querySelector("img"); im.src = top.src; im.style.setProperty("--c", top.color); im.onclick = () => openViewer(top, `${top.dud ? `{ ${top.name} } · ` : ""}가장 많이 나온 캡슐 · ${topN}회`); }
     state.history.forEach((h, i) => {
       const it = map.get(h.id);
       const b = document.createElement("button"); b.className = "hitem"; b.type = "button";
@@ -647,7 +838,7 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
       const num = document.createElement("span"); num.className = "num"; num.textContent = "#" + (state.total - i); th.append(num);
       const dt = document.createElement("span"); dt.className = "hdate"; dt.textContent = fmtDate(h.t);
       b.append(th, dt);
-      if (it) b.onclick = () => openViewer(it, `#${state.total - i} · ${fmtDate(h.t)}`); else b.disabled = true;
+      if (it) b.onclick = () => openViewer(it, `${it.dud ? `{ ${it.name} } · ` : ""}#${state.total - i} · ${fmtDate(h.t)}`); else b.disabled = true;
       g.append(b);
     });
     if (state.total > state.history.length) { const p = document.createElement("p"); p.className = "hempty"; p.style.gridColumn = "1/-1"; p.textContent = `가장 오래된 ${state.total - state.history.length}회는 저장 공간 때문에 목록에서 빠졌어요.`; g.append(p); }
@@ -705,7 +896,15 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
     state.wiping = false; renderAll();
     setStatus(fail ? `${fail}장은 빼지 못했어요. 다시 시도해 주세요.` : "사진과 뽑기 기록을 모두 지웠어요.", !!fail);
   }
-  function renderAll() { renderPile(); renderCards(); renderRecent(); renderMode(); renderClear(); renderWipe(); if (!$("histScrim").hidden) renderHistorySheet(); }
+  function dropPendingIfGone() {
+    const p = state.pending;
+    if (p && !p.sample && !p.dud && !real().some(x => x.id === p.id)) {
+      state.pending = null; $("outCap").classList.remove("show");
+      if (!$("reveal").hidden && $("reveal").dataset.state === "closed") $("reveal").hidden = true;
+      setStatus("");
+    }
+  }
+  function renderAll() { dropPendingIfGone(); renderPile(); renderCards(); renderRecent(); renderMode(); renderClear(); renderWipe(); if (!$("histScrim").hidden) renderHistorySheet(); }
 
   // ---------- storage ----------
   async function initCaps() {
@@ -719,7 +918,12 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
       renderAll();
     }, () => setStatus("저장된 캡슐을 불러오지 못했어요. 새로고침해 주세요.", true));
     setDoc = db.doc("meta/settings");
-    setDoc.onSnapshot(s => { const v = s.exists ? (s.data() || {}) : {}; if (v.theme && v.theme !== themeKey && THEMES[v.theme]) { applyTheme(v.theme); saveLocal(); } }, () => { setDoc = null; });
+    setDoc.onSnapshot(s => {
+      const v = s.exists ? (s.data() || {}) : {};
+      if (Date.now() - themePickedAt < 5000) return;
+      if (v.theme && v.theme !== themeKey && THEMES[v.theme]) { applyTheme(v.theme); saveLocal(); }
+      if (typeof v.dudRate === "number" && v.dudRate !== state.dudRate) { state.dudRate = v.dudRate; renderDudSeg(); renderPile(); saveLocal(); }
+    }, () => { setDoc = null; });
     histDoc = db.doc("meta/history");
     histDoc.onSnapshot(s => {
       lastSnap = s;
@@ -733,7 +937,7 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
   function applyHistSnap(s) {
     if (s && s.exists) {
       const v = s.data() || {};
-      state.history = Array.isArray(v.entries) ? v.entries.map(e => ({ id: String(e.id), name: String(e.name || ""), t: +e.t || 0 })) : [];
+      state.history = Array.isArray(v.entries) ? v.entries.map(e => ({ id: String(e.id), t: +e.t || 0 })) : [];
       state.total = Math.max(v.total | 0, state.history.length);
     } else { state.history = []; state.total = 0; }
     renderRecent(); renderClear(); if (!$("histScrim").hidden) renderHistorySheet();
@@ -745,13 +949,15 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
     lastWriteAt = Date.now();
     const body = { entries: state.history.map(e => ({ ...e })), total: state.total, updatedAt: lastWriteAt };
     inflight++;
+    const doc = histDoc;
     writeChain = writeChain
-      .then(() => histDoc.set(body))
-      .catch(() => { histDoc = null; saveLocal(); })
+      .then(() => doc.set(body))
+      .catch(() => wait(900).then(() => doc.set(body)))
+      .catch(() => setStatus("뽑기 기록을 저장하지 못했어요. 잠시 후 다시 뽑으면 함께 저장돼요.", true))
       .finally(() => { inflight--; });
   }
   function recordPull(it) {
-    state.history = [{ id: it.id, name: it.name, t: Date.now() }, ...state.history].slice(0, MAXH);
+    state.history = [{ id: it.id, t: Date.now() }, ...state.history].slice(0, MAXH);
     state.total++;
     renderRecent(); renderClear();
     persistHistory();
@@ -813,10 +1019,16 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
   }
 
   // ---------- layers ----------
-  function openLayer(el) { el.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("open"))); }
-  function closeLayer(el) { el.classList.remove("open"); setTimeout(() => { el.hidden = true; }, reduced ? 0 : 280); }
+  function openLayer(el) { clearTimeout(el._t); el.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("open"))); }
+  function closeLayer(el) { el.classList.remove("open"); clearTimeout(el._t); el._t = setTimeout(() => { el.hidden = true; if (el.id === "settingsScrim") $("secretSec").hidden = true; }, reduced ? 0 : 280); }
   $("openSettings").onclick = () => { openLayer($("settingsScrim")); setTimeout(() => $("closeSettings").focus(), 50); };
   $("closeSettings").onclick = () => closeLayer($("settingsScrim"));
+  // secret: tap the "설정" title 5 times quickly to show the 꽝 setting
+  let secretTaps = [];
+  $("setTitle").addEventListener("click", () => {
+    const now = Date.now(); secretTaps = secretTaps.filter(t => now - t < 2000); secretTaps.push(now);
+    if (secretTaps.length >= 5) { secretTaps = []; const sec = $("secretSec"); sec.hidden = !sec.hidden; if (!sec.hidden) { tone(880, 0, .1, "sine", .08); tone(1320, .1, .16, "sine", .08); sec.scrollIntoView({ block: "nearest", behavior: "smooth" }); } }
+  });
   $("settingsScrim").addEventListener("click", e => { if (e.target === $("settingsScrim")) closeLayer($("settingsScrim")); });
   $("recentRow").onclick = () => { renderHistorySheet(); openLayer($("histScrim")); setTimeout(() => $("closeHist").focus(), 50); };
   $("closeHist").onclick = () => closeLayer($("histScrim"));
@@ -857,13 +1069,16 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
   const CONF = ["#FFB5CC","#FFE3A3","#B8E8D8","#B9D7FF","#D6C6FF","#FFCBA8","#FFFFFF","#F7A3C0","#F7D272","#94D9C2"];
   const fx = { cv: $("fx"), parts: [], raf: 0, rainUntil: 0, dpr: 1 };
   function fxResize() { const c = fx.cv, r = c.getBoundingClientRect(); fx.dpr = Math.min(2, window.devicePixelRatio || 1); c.width = Math.round(r.width * fx.dpr); c.height = Math.round(r.height * fx.dpr); }
+  let confPal = CONF;
   function spawn(x, y, vx, vy) {
     if (fx.parts.length > 520) return;
-    fx.parts.push({ x, y, vx, vy, rot: Math.random() * 6.28, vr: (Math.random() - .5) * .3, s: 6 + Math.random() * 7, shape: Math.floor(Math.random() * 4), c: CONF[Math.floor(Math.random() * CONF.length)], wob: Math.random() * 6.28, life: 0 });
+    fx.parts.push({ x, y, vx, vy, rot: Math.random() * 6.28, vr: (Math.random() - .5) * .3, s: 6 + Math.random() * 7, shape: Math.floor(Math.random() * 4), c: confPal[Math.floor(Math.random() * confPal.length)], wob: Math.random() * 6.28, life: 0 });
   }
   function starPath(x, r) { x.beginPath(); for (let i = 0; i < 10; i++) { const rr = i % 2 ? r * .45 : r, a = -Math.PI / 2 + i * Math.PI / 5; x.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); } x.closePath(); }
   function heartPath(x, r) { x.beginPath(); x.moveTo(0, r * .35); x.bezierCurveTo(-r * 1.1, -r * .4, -r * .4, -r * 1.1, 0, -r * .45); x.bezierCurveTo(r * .4, -r * 1.1, r * 1.1, -r * .4, 0, r * .35); x.closePath(); }
-  function confettiBurst() {
+  const DUD_CONF = ["#C9CDBE","#A3AA92","#D9D2C0","#BFB6CF","#FFFFFF","#FFB5CC","#FFE3A3","#8C7358"];
+  function confettiBurst(pal) {
+    confPal = pal || CONF;
     fxResize();
     const rv = $("reveal").getBoundingClientRect(), st = document.querySelector(".reveal .stage").getBoundingClientRect();
     const cx = st.left + st.width / 2 - rv.left, cy = st.top + st.height / 2 - rv.top, w = rv.width, h = rv.height;
@@ -900,7 +1115,9 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
     if (state.pending) { openReveal(); return; }
     const items = pool(); if (!items.length) return;
     state.busy = true; $("handle").disabled = true; setStatus("");
-    const result = items[Math.floor(Math.random() * items.length)];
+    const isDud = state.duds.length && Math.random() < state.dudRate;
+    const result = isDud ? state.duds[Math.floor(Math.random() * state.duds.length)] : items[Math.floor(Math.random() * items.length)];
+    const pre = new Image(); pre.src = result.src;
     // 1) insert a coin
     const coin = $("coin"), slot = $("slot");
     coin.classList.remove("go"); void coin.offsetWidth; coin.classList.add("go");
@@ -918,33 +1135,54 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
     $("pile").classList.remove("shaking");
     const chute = $("chute"), out = $("outCap");
     chute.classList.add("dropping");
-    out.style.setProperty("--c", result.color);
+    out.style.setProperty("--c", result.color); out.classList.toggle("dud", !!result.dud);
     out.classList.remove("show"); void out.offsetWidth; out.classList.add("show");
     setTimeout(pop, reduced ? 0 : 380);
     await wait(500); chute.classList.remove("dropping");
     state.pending = result; state.busy = false; $("handle").disabled = false;
-    setStatus("캡슐이 나왔어요! 눌러서 열어보세요.");
+    setStatus(result.dud ? "어랏? 캡슐 색이 좀 이상한데…" : "캡슐이 나왔어요! 눌러서 열어보세요.");
   }
   function openReveal() {
     const it = state.pending; if (!it) return;
-    const rv = $("reveal"); rv.dataset.state = "closed";
+    const rv = $("reveal"); rv.dataset.state = "closed"; rv.dataset.kind = it.dud ? "dud" : "normal";
+    setTaran(it.dud ? "축하합니다!!" : "짜잔~", !it.dud);
+    const dn = $("dudName"); dn.hidden = !it.dud; dn.textContent = it.dud ? `{ ${it.name} }` : "";
     $("bigCap").style.setProperty("--c", it.color);
     $("prizeFrame").style.setProperty("--c", it.color);
     $("prizeImg").src = it.src; $("prizeImg").alt = "뽑은 사진";
     $("prizeMeta").textContent = it.sample ? "샘플 캡슐은 기록되지 않아요" : `${state.total + 1}번째 뽑기`;
     $("sparkles").innerHTML = "";
     rv.hidden = false; $("bigCap").focus();
+    if (it.dud) setTimeout(uhOh, 150);
+  }
+  function setTaran(text, cute) {
+    const box = $("taran"); box.innerHTML = "";
+    const h = cls => { const i = document.createElement("i"); i.className = "h " + cls; i.textContent = "♥"; return i; };
+    box.append(h("l"));
+    [...text].forEach((ch, i) => { const s = document.createElement("span"); s.textContent = ch; s.style.setProperty("--i", i); box.append(s); });
+    if (cute) { const n = document.createElement("span"); n.className = "note"; n.textContent = "♪"; n.style.setProperty("--i", text.length); box.append(n); }
+    box.append(h("r"));
   }
   async function crack() {
     const rv = $("reveal"), it = state.pending; if (!it || rv.dataset.state !== "closed") return;
     rv.dataset.state = "rolling";
-    const roll = reduced ? .4 : 1.5;
-    drumroll(roll);
+    const roll = reduced ? .4 : (it.dud ? 2.1 : 1.5);
+    if (it.dud) ominousRoll(roll); else drumroll(roll);
     await wait(roll * 1000);
     rv.dataset.state = "open";
-    crash(); pop(); setTimeout(fanfare, 90);
-    setTimeout(() => { tone(1568, 0, .18, "sine", .1); tone(2093, .13, .45, "sine", .1, 2349); }, reduced ? 0 : 760);
-    confettiBurst();
+    if (rv.hidden) {
+      $("outCap").classList.remove("show"); state.pending = null;
+      if (!it.sample) { try { recordPull(it); } catch {} }
+      return;
+    }
+    if (it.dud) {
+      pop(); setTimeout(sadTrombone, 120);
+      confettiBurst(DUD_CONF);
+    } else {
+      crash(); pop(); setTimeout(fanfare, 90);
+      setTimeout(() => { tone(1568, 0, .18, "sine", .1); tone(2093, .13, .45, "sine", .1, 2349); }, reduced ? 0 : 760);
+      confettiBurst();
+    }
     const sp = $("sparkles");
     for (let i = 0; i < 16; i++) { const s = document.createElement("i"); s.style.left = Math.random() * 100 + "%"; s.style.top = Math.random() * 100 + "%"; s.style.animationDelay = (Math.random() * 1.6).toFixed(2) + "s"; const z = 7 + Math.random() * 12; s.style.width = s.style.height = z + "px"; s.style.background = SPARK[i % SPARK.length]; sp.append(s); }
     $("outCap").classList.remove("show"); state.pending = null;
@@ -978,16 +1216,28 @@ label.drop input{position:absolute;width:1px;height:1px;opacity:0;pointer-events
   $("muteBtn").onclick = toggleMute; $("soundSwitch").onclick = toggleMute;
   syncMute();
 
+  let themePickedAt = 0;
   function chooseTheme(k) {
-    applyTheme(k); saveLocal();
-    if (setDoc) setDoc.set({ theme: k }).catch(() => {});
+    themePickedAt = Date.now();
+    applyTheme(k); saveLocal(); saveSettings();
+  }
+  function saveSettings() { if (setDoc) setDoc.set({ theme: themeKey, dudRate: state.dudRate }).catch(() => {}); }
+  const DUD_RATES = [[0, "끄기"], [.1, "10%"], [.2, "20%"], [.35, "35%"]];
+  function renderDudSeg() {
+    const box = $("dudSeg"); box.innerHTML = "";
+    DUD_RATES.forEach(([v, label]) => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = label;
+      b.setAttribute("aria-pressed", String(Math.abs(state.dudRate - v) < 1e-9));
+      b.onclick = () => { themePickedAt = Date.now(); state.dudRate = v; renderDudSeg(); renderPile(); saveLocal(); saveSettings(); };
+      box.append(b);
+    });
   }
 
   // ---------- boot ----------
-  applyTheme(themeKey);
-  buildSamples(); renderAll();
+  applyTheme(themeKey); renderDudSeg();
+  buildSamples(); buildDuds(); renderAll();
   const fontsReady = document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, wait(1500)]) : Promise.resolve();
-  fontsReady.then(() => { buildSamples(); renderAll(); });
+  fontsReady.then(() => { buildSamples(); buildDuds(); renderAll(); });
   initCaps();
 })();
 </script>
